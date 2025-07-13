@@ -1,0 +1,41 @@
+@startuml
+title Компания "Будущее 2.0". Диаграмма контейнеров
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+Person_Ext(ClientClinic, "Клиент клиники", "Пользуется услугами клиники")
+Person_Ext(ClientBank, "Клиент банка", "Пользуется услугами банка")
+
+Container_Boundary(Future, "Будущее 2.0.") {
+
+  Component(FutureClinic, "Сервисы клиник. ИИ-ассисенты", "SQL-сервер, Power Builder, Python")
+
+  Component(FutureFinance, "Финтех сервисы", "SQL-сервер, Golang, Java")
+
+  Component(FutureBank, "Банк",$descr= "Предоставляет финансовые услуги")
+
+  Component(FuturePharmaceuticalCompany, "Фармацевтические компании")
+
+  Component(FutureInternal, "Внутренние сервисы", "SQL-сервер, Golang, Java")
+
+  Component(FutureDataMesh, "DataMesh","DataHub",$descr="Управление метаданными")
+  
+}
+
+Person(Manager, "Сотрудник компании или подразделения")
+
+Rel_D(ClientClinic, FutureClinic, "")
+Rel_D(ClientClinic, FutureFinance, "")
+Rel_D(ClientBank, FutureBank, "")
+
+Rel(FutureBank, FutureDataMesh, "Публикация данных\nИнтеграции")
+Rel(FuturePharmaceuticalCompany, FutureDataMesh, "Публикация данных\nИнтеграции")
+Rel_D(FutureClinic, FutureDataMesh, "Публикация данных\nИнтеграции")
+Rel_D(FutureFinance, FutureDataMesh, "Публикация данных\nИнтеграции")
+Rel_L(FutureInternal, FutureDataMesh, "Публикация данных\nИнтеграции")
+
+Rel_U(Manager, FutureDataMesh, "Формирование отчетов\nполучение данных")
+
+@enduml
